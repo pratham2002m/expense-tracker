@@ -38,7 +38,7 @@ class LoginView(APIView):
             return JsonResponse({"response": "Invalid credentials"}, status=401)
 
 class RegistrationView(APIView):
-    @method_decorator(csrf_exempt)
+    # @method_decorator(csrf_exempt)
     def post(self, request):
         try:
             username = request.data.get('username')
@@ -46,9 +46,11 @@ class RegistrationView(APIView):
             last_name = request.data.get('last_name')
             password = request.data.get('password')
             user = UserModel.objects.create(username=username, first_name=first_name, last_name=last_name, password=password)
+            print(user)
             user.save()
             return JsonResponse({"response": "User has been registered successfully"}, status=200)
         except Exception as e:
+            print(e)
             return JsonResponse({"response": str(e)}, status=401)
 
 class ExpenseCreateView(APIView):
